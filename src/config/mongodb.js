@@ -17,6 +17,7 @@ const mongoClientInstance = new MongoClient(MONGODB_URI, {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true
+    
   }
 })
 
@@ -24,6 +25,11 @@ export const CONNECT_DB = async () => {
   //gọi kết nối tới mongodb Atlas với URI
   await mongoClientInstance.connect()
   trelloDatabaseInstance = mongoClientInstance.db(DATABASE_NAME)
+}
+
+export const CLOSE_DB = async () => {
+  console.log('chay chua')
+  await mongoClientInstance.close()
 }
 
 export const GET_DB = () => {

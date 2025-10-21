@@ -5,7 +5,8 @@
  */
 
 import express from 'express'
-import { CONNECT_DB, GET_DB } from '~/config/mongodb'
+import exitHook from 'async-exit-hook'
+import { CONNECT_DB, GET_DB, CLOSE_DB } from '~/config/mongodb'
 
 const START_SERVER = () => {
   const app = express()
@@ -23,6 +24,11 @@ const START_SERVER = () => {
     console.log(`Hello Trung Quan Dev, I am running at https:// ${hostname}:${port}/`)
   })
 
+  exitHook(() => {
+    console.log('check')
+    CLOSE_DB()
+    console.log('close')
+  })
 }
 
 (async () => {
