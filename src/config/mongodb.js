@@ -4,27 +4,24 @@
  * "A bit of fragrance clings to the hand that gives flowers!"
  */
 
-const MONGODB_URI = 'mongodb+srv://QuangTranNodejs:CW3aUprnj4UYECdL@cluster-quangtran.wxjld5k.mongodb.net/?retryWrites=true&w=majority&appName=Cluster-QuangTran'
-
-const DATABASE_NAME = 'trello-nodejs'
+import { env } from './environment'
 
 import { MongoClient, ServerApiVersion } from 'mongodb'
 
 let trelloDatabaseInstance = null
 
-const mongoClientInstance = new MongoClient(MONGODB_URI, {
+const mongoClientInstance = new MongoClient(env.MONGODB_URI, {
   serverApi: {
     version: ServerApiVersion.v1,
     strict: true,
     deprecationErrors: true
-    
   }
 })
 
 export const CONNECT_DB = async () => {
   //gọi kết nối tới mongodb Atlas với URI
   await mongoClientInstance.connect()
-  trelloDatabaseInstance = mongoClientInstance.db(DATABASE_NAME)
+  trelloDatabaseInstance = mongoClientInstance.db(env.DATABASE_NAME)
 }
 
 export const CLOSE_DB = async () => {
