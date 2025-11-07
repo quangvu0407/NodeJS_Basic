@@ -16,7 +16,8 @@ const createNew = async (req, res, next) => {
     // console.log('req.cookies', req.cookies)
     // console.log('req.jwtDecoded', req.jwtDecoded)
 
-    // res.status(StatusCodes.CREATED).json({ message: 'POST from controller: API create new board' })
+    //co ket qua thi tra ve client
+    res.status(StatusCodes.CREATED).json({ message: 'POST from controller: API create new board' })
   }
   catch (error) { next(error) }
 }
