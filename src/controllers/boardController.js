@@ -5,6 +5,7 @@
  */
 
 import { StatusCodes } from 'http-status-codes'
+import { boardService } from '~/services/boardService'
 // import ApiError from '~/utils/ApiError'
 
 const createNew = async (req, res, next) => {
@@ -16,8 +17,11 @@ const createNew = async (req, res, next) => {
     // console.log('req.cookies', req.cookies)
     // console.log('req.jwtDecoded', req.jwtDecoded)
 
+    //dieu huong sang service
+    const createBoard = await boardService.createNew(req.body)
+
     //co ket qua thi tra ve client
-    res.status(StatusCodes.CREATED).json({ message: 'POST from controller: API create new board' })
+    res.status(StatusCodes.CREATED).json(createBoard)
   }
   catch (error) { next(error) }
 }
