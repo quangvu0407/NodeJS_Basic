@@ -1,4 +1,6 @@
 import Joi from 'joi'
+import { GET_DB } from '~/config/mongodb'
+import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from '~/utils/validators'
 
 //Define collection (Name && Schema)
 
@@ -14,7 +16,26 @@ const BOAD_COLLECTION_SCHEMA = Joi.object({
   _destroy: Joi.boolean().default(false)
 })
 
+const createNew = async (data) => {
+  try {
+    const createdBoard = await GET_DB().collection(BOAD_COLLECTION_NAME).insertOne(data)
+    return createdBoard
+  } catch (error) { throw new Error(error) }
+}
+
+const findOneById = async (id) => {
+  try {
+    const result = await GET_DB().collection(BOAD_COLLECTION_NAME).findOne({
+      _id: id
+    })
+    return result
+  } catch (error) { throw new Error(error) }
+
+}
+
 export const boardModel = {
   BOAD_COLLECTION_NAME,
-  BOAD_COLLECTION_SCHEMA
+  BOAD_COLLECTION_SCHEMA,
+  createNew,
+  findOneById
 }
