@@ -6,7 +6,7 @@
 
 import Joi from 'joi'
 import { StatusCodes } from 'http-status-codes'
-import { json } from 'express'
+// import { json } from 'express'
 import ApiError from '~/utils/ApiError'
 import { BOARD_TYPES } from '~/utils/constants'
 

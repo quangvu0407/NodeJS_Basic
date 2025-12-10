@@ -16,7 +16,7 @@ const createNew = async (req, res, next) => {
 
     //co ket qua thi tra ve client
     res.status(StatusCodes.CREATED).json(createColumn)
-  } 
+  }
   catch (error) { next(error) }
 }
 

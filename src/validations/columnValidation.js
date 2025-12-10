@@ -6,7 +6,13 @@ import { OBJECT_ID_RULE, OBJECT_ID_RULE_MESSAGE } from '~/utils/validators'
 const createNew = async (req, res, next) => {
   const correctCondition = Joi.object({
     boardId: Joi.string().required().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE),
-    title: Joi.string().required().min(3).max(50).trim().strict()
+    title: Joi.string().required().min(3).max(50).trim().strict().messages({
+      'any.required': 'Title is required.',
+      'string.empty': 'Title is not allowed to be empty.',
+      'string.min': 'Title min 3 chars.',
+      'string.max': 'Title max 50 chars',
+      'string.trim': 'Title must not have leading or training whitespace.'
+    })
   })
 
   try {
