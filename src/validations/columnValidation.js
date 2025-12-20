@@ -28,6 +28,37 @@ const createNew = async (req, res, next) => {
   }
 }
 
+const update = async (req, res, next) => {
+  //Không dùng requied trong trường hợp update
+  const correctCondition = Joi.object({
+    boardId: Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE),
+    title: Joi.string().min(3).max(50).trim().strict().messages({
+      'string.empty': 'Title is not allowed to be empty.',
+      'string.min': 'Title min 3 chars.',
+      'string.max': 'Title max 50 chars',
+      'string.trim': 'Title must not have leading or training whitespace.'
+    }),
+    cardOrderIds: Joi.array().items(
+      Joi.string().pattern(OBJECT_ID_RULE).message(OBJECT_ID_RULE_MESSAGE)
+    )
+  })
+
+  try {
+    //Trả về nhiều lỗi(cho abortEarly: false), nếu k set thì chỉ lấy lỗi đầu tiên phát hiện
+    await correctCondition.validateAsync(req.body, {
+      abortEarly: false,
+      allowUnknown: true
+    })
+    // cho  request đi tiếp san controller
+    next()
+  }
+  catch (error) {
+    const errorMessage = new Error(error).message
+    const customError = new ApiError(StatusCodes.UNPROCESSABLE_ENTITY, errorMessage)
+    next(customError)
+  }
+}
+
 export const columnValidation = {
-  createNew
+  createNew, update
 }
