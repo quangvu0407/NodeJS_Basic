@@ -53,8 +53,8 @@ const update = async (cardId, updateData) => {
     })
 
     // Đối với dữ liệu liên quan đến ObjectId thì cập nhật ở đây
-    if (updateData.columnId) {
-      updateData.columnId = new ObjectId(updateData.columnId)
+    if (updateData.cardId) {
+      updateData.cardId = new ObjectId(updateData.cardId)
     }
     const result = await GET_DB().collection(CARD_COLLECTION_NAME).findOneAndUpdate(
       { _id: new ObjectId(cardId) },
@@ -77,10 +77,29 @@ const deteteManyByColumnId = async (columnId) => {
   } catch (error) { throw new Error(error) }
 }
 
+const updateCardTitle = async (cardId, updateData) => {
+  try {
+    Object.keys(updateData).forEach(fieldName => {
+      if (INVALID_UPDATE_FIELDS.includes(fieldName)) {
+        delete updateData(fieldName)
+      }
+    })
+    const result = await GET_DB().collection(CARD_COLLECTION_NAME).findOneAndUpdate(
+      { _id: new ObjectId(cardId) },
+      { $set: updateData },
+      { returnDocument: 'after' }
+    )
+
+    return result || null
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
 
 export const cardModel = {
   CARD_COLLECTION_NAME,
   CARD_COLLECTION_SCHEMA,
   createNew, findOneById, update,
-  deteteManyByColumnId
+  deteteManyByColumnId, updateCardTitle
 }

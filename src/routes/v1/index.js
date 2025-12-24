@@ -5,7 +5,7 @@
  */
 import express from 'express'
 import { StatusCodes } from 'http-status-codes'
-import { boardRouter } from './boardRouter'
+import { boardRouter } from './BoardRouter'
 import { columnRouter } from './columnRouter'
 import { cardRouter } from './cardRouter'
 

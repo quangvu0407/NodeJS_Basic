@@ -12,5 +12,8 @@ const Router = express.Router()
 
 Router.route('/')
   .post(cardValidation.createNew, cardController.createNew)
+  .put(cardValidation.updateCardTitle, cardController.updateCardTitle)
 
+Router.route('/:id')
+  .put(cardValidation.updateCardTitle, cardController.updateCardTitle)
 export const cardRouter = Router
